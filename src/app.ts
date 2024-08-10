@@ -1,8 +1,8 @@
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import express, { Application, Request, Response } from 'express';
-// import globalErrorHandler from './app/middlewares/globalErrorhandler';
-// import notFound from './app/middlewares/notFound';
+import globalErrorHandler from './App/middlewares/globalErrorhandler';
+import notFound from './App/middlewares/notFound';
 import router from './App/routes';
 const app: Application = express();
 
@@ -19,9 +19,9 @@ app.get('/', (req: Request, res: Response) => {
   res.send('Hi Next Level Developer !');
 });
 
-// app.use(globalErrorHandler);
+app.use(globalErrorHandler);
 
 //Not Found
-// app.use(notFound);
+app.use(notFound);
 
 export default app;
