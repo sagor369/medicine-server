@@ -18,6 +18,9 @@ const categorySchema = new Schema<TCategory>({
     type: Boolean,
     default: false
   }
+},
+{
+  timestamps:true
 });
 
 export const Category = model<TCategory>("categorys", categorySchema);
