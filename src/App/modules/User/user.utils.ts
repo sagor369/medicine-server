@@ -32,3 +32,13 @@ export const findLastUserId = async () => {
     incrementId = `U-${incrementId}`;
     return incrementId;
   };
+
+  export const generateRandomNumberCode = ()=> {
+    const digits = '0123456789';
+    let result = '';
+    for (let i = 0; i < 6; i++) {
+      const randomIndex = Math.floor(Math.random() * digits.length);
+      result += digits[randomIndex];
+    }
+    return Number(result);
+  }

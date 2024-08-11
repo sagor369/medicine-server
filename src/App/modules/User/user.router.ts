@@ -7,7 +7,7 @@ import { USER_ROLE } from "./user.const";
 
 const router = Router()
 
-router.post("/create-user", validateRequest(UserValidation), UserController.postUser)
+router.post("/register", validateRequest(UserValidation), UserController.postUser)
 router.get("/", UserController.getAlluser)
 router.get("/:id", UserController.getSingleUser)
 router.patch("/:id",auth(USER_ROLE.superAdmin, USER_ROLE.admin), UserController.updateUser)

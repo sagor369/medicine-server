@@ -24,8 +24,8 @@ const getAllOrders = catchAsync(async (req, res) => {
     });
   });
 const getSingleOrders = catchAsync(async (req, res) => {
-    const {OrdersId} = req.params
-    const result = await OrdersServices.getSingleOrdersInToDb(OrdersId);
+    const {ordersId} = req.params
+    const result = await OrdersServices.getSingleOrdersInToDb(ordersId);
   
     sendResponse(res, {
       statusCode: httpStatus.OK,
@@ -35,8 +35,8 @@ const getSingleOrders = catchAsync(async (req, res) => {
     });
   });
 const updateOrders = catchAsync(async (req, res) => {
-    const {OrdersId} = req.params
-    const result = await OrdersServices.updateOrdersInToDb(OrdersId, req.body);
+    const {ordersId} = req.params
+    const result = await OrdersServices.updateOrdersInToDb(ordersId, req.body);
   
     sendResponse(res, {
       statusCode: httpStatus.OK,
@@ -46,8 +46,8 @@ const updateOrders = catchAsync(async (req, res) => {
     });
   });
 const deleteOrders = catchAsync(async (req, res) => {
-    const {OrdersId} = req.params
-    const result = await OrdersServices.deleteOrdersInToDb(OrdersId);
+    const {ordersId} = req.params
+    const result = await OrdersServices.deleteOrdersInToDb(ordersId);
   
     sendResponse(res, {
       statusCode: httpStatus.OK,

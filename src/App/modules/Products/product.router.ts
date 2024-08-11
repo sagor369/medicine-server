@@ -7,7 +7,7 @@ import { productValidation } from "./product.validation";
 
 const router = Router()
 
-router.post("/create-user", validateRequest(productValidation), productsController.createProduct)
+router.post("/create-product", validateRequest(productValidation), productsController.createProduct)
 router.get("/", productsController.getAllProduct)
 router.get("/:id", productsController.getSingleProduct)
 router.patch("/:id",auth(USER_ROLE.superAdmin, USER_ROLE.admin), productsController.updateProduct)

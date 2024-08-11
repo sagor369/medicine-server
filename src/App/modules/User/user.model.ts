@@ -28,10 +28,14 @@ const userSchema = new Schema<IUser, UserModel>(
       type: String,
       enum: USER_ROLE,
     },
+    varifyCode: {
+      type: Number,
+      required: true
+    },
     status: {
       type: String,
       enum: UserStatus,
-      default: "in-progress",
+      default: 'panding' ,
     },
     isDeleted: {
       type: Boolean,

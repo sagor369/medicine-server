@@ -3,12 +3,16 @@ import QueryBuilder from "../../builder/QueryBuilder";
 import AppError from "../../errors/AppError";
 import { IUser } from "./user.interface";
 import { User } from "./user.model";
-import { generateUserId } from "./user.utils";
+import { generateRandomNumberCode, generateUserId } from "./user.utils";
+import { sendEmail } from "../../utils/sendEmail";
 
 const createUserInToDb = async (payload: IUser) => {
   payload.role = "user";
   payload.id = await generateUserId();
+  payload.varifyCode = generateRandomNumberCode()
   const result = await User.create(payload);
+  const verifyCode = ` ${result?.varifyCode}`
+  await sendEmail(payload?.email, verifyCode)
   return result;
 };
 
