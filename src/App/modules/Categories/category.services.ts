@@ -26,10 +26,10 @@ const getAllCategoryInToDb = async (query: Record<string, unknown>) => {
 const getSingleCategoryInToDb = async (id: string) => {
     const result = await Category.findOne({id})
     if(!result){
-        throw new AppError(httpStatus.NOT_FOUND, "this user is not found")
+        throw new AppError(httpStatus.NOT_FOUND, "this Category is not found")
     }
     if(result.isDeleted){
-        throw new AppError(httpStatus.FORBIDDEN, "this user is deleted")
+        throw new AppError(httpStatus.FORBIDDEN, "this Category is deleted")
     }
   return result;
 };
@@ -39,7 +39,7 @@ const updateCategoryInToDb = async (
 ) => {
     const fineCategory = await Category.findOne({id})
     if(!fineCategory){
-        throw new AppError(httpStatus.NOT_FOUND, "this user is not found")
+        throw new AppError(httpStatus.NOT_FOUND, "this Category is not found")
     }
     const result = Category.findOneAndUpdate({id}, payload, {new: true, runValidators: true})
   return result;
@@ -47,7 +47,7 @@ const updateCategoryInToDb = async (
 const deleteCategoryInToDb = async (id: string) => {
     const fineCategory = await Category.findOne({id})
     if(!fineCategory){
-        throw new AppError(httpStatus.NOT_FOUND, "this user is not found")
+        throw new AppError(httpStatus.NOT_FOUND, "this Category is not found")
     }
     const result = Category.findOneAndUpdate({id}, {isDeleted: true}, {new: true, runValidators: true})
     return result;

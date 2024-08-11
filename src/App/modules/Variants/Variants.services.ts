@@ -11,7 +11,7 @@ const createVariaInToDb = async (payload: TVariants) => {
 const getAllVariantsInToDb = async (query: Record<string, unknown>) => {
   const productQuery = new QueryBuilder(
     Variant.find({isDeleted: false}).populate(
-      "products"
+      "productId"
     ),
     query
   ).search(['name','price'])
@@ -29,7 +29,7 @@ const getAllVariantsInToDb = async (query: Record<string, unknown>) => {
 };
 const getSingleVariantInToDb = async (id: string) => {
   const result = await  Variant.find({isDeleted: false}).populate(
-    "products")
+    "productId")
   return result;
 };
 
