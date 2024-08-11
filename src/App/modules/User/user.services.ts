@@ -9,17 +9,43 @@ import { sendEmail } from "../../utils/sendEmail";
 const createUserInToDb = async (payload: IUser) => {
   payload.role = "user";
   payload.id = await generateUserId();
-  payload.varifyCode = generateRandomNumberCode()
+  //   random code generete
+  payload.varifyCode = await generateRandomNumberCode();
+
   const result = await User.create(payload);
-  const verifyCode = ` ${result?.varifyCode}`
-  await sendEmail(payload?.email, verifyCode)
+  const verifyCode = ` ${result?.varifyCode}`;
+
+  //   user mail send
+  await sendEmail(payload?.email, verifyCode);
+  return result;
+};
+
+const varifyUser = async (id: string) => {
+  const findUser = await User.findById(id);
+  if (!findUser) {
+    throw new AppError(httpStatus.NOT_FOUND, "this user is not found");
+  }
+  if (findUser?.isDeleted) {
+    throw new AppError(httpStatus.UNAUTHORIZED, "this user is deleted");
+  }
+  if (findUser?.status === "blocked") {
+    throw new AppError(httpStatus.NOT_FOUND, "this user is block");
+  }
+  const varifyCode = await generateRandomNumberCode();
+
+  const result = await User.findByIdAndUpdate(
+    id,
+    { varifyCode },
+    { new: true, runValidators: true }
+  );
+
+  await sendEmail(findUser?.email, `${varifyCode}`);
   return result;
 };
 
 const getAllUserInToDb = async (query: Record<string, unknown>) => {
-  
-    const studentQuery = new QueryBuilder(User.find(), query)
-    .search(['name', 'email', 'id'])
+  const studentQuery = new QueryBuilder(User.find(), query)
+    .search(["name", "email", "id"])
     .filter()
     .sort()
     .paginate()
@@ -34,40 +60,47 @@ const getAllUserInToDb = async (query: Record<string, unknown>) => {
   };
 };
 const getSingleUserInToDb = async (id: string) => {
-    const result = await User.findOne({id})
-    if(!result){
-        throw new AppError(httpStatus.NOT_FOUND, "this user is not found")
-    }
-    if(result.isDeleted){
-        throw new AppError(httpStatus.UNAUTHORIZED, "this user is deleted")
-    }
-    if(result.status === 'blocked'){
-        throw new AppError(httpStatus.NOT_FOUND, "this user is block")
-    }
+  const result = await User.findOne({ id });
+  if (!result) {
+    throw new AppError(httpStatus.NOT_FOUND, "this user is not found");
+  }
+  if (result.isDeleted) {
+    throw new AppError(httpStatus.UNAUTHORIZED, "this user is deleted");
+  }
+  if (result.status === "blocked") {
+    throw new AppError(httpStatus.NOT_FOUND, "this user is block");
+  }
 
-    return result
+  return result;
 };
 const updateUserInToDb = async (id: string, payload: Partial<IUser>) => {
-    const findUser = await User.findOne({id})
-    if(!findUser){
-        throw new AppError(httpStatus.NOT_FOUND, "this user is not found")
-    }
-    if(findUser.isDeleted){
-        throw new AppError(httpStatus.UNAUTHORIZED, "this user is deleted")
-    }
-    const result = User.findOneAndUpdate({id}, payload, {new: true, runValidators: true})
-   return result
+  const findUser = await User.findOne({ id });
+  if (!findUser) {
+    throw new AppError(httpStatus.NOT_FOUND, "this user is not found");
+  }
+  if (findUser.isDeleted) {
+    throw new AppError(httpStatus.UNAUTHORIZED, "this user is deleted");
+  }
+  const result = User.findOneAndUpdate({ id }, payload, {
+    new: true,
+    runValidators: true,
+  });
+  return result;
 };
 const deleteUserInToDb = async (id: string) => {
-    const findUser = await User.findOne({id})
-    if(!findUser){
-        throw new AppError(httpStatus.NOT_FOUND, "this user is not found")
-    }
-    if(findUser.isDeleted){
-        throw new AppError(httpStatus.UNAUTHORIZED, "this user alredy deleted")
-    }
-    const result = User.findOneAndUpdate({id}, {isDeleted: true}, {new: true, runValidators: true})
-   return result
+  const findUser = await User.findOne({ id });
+  if (!findUser) {
+    throw new AppError(httpStatus.NOT_FOUND, "this user is not found");
+  }
+  if (findUser.isDeleted) {
+    throw new AppError(httpStatus.UNAUTHORIZED, "this user alredy deleted");
+  }
+  const result = User.findOneAndUpdate(
+    { id },
+    { isDeleted: true },
+    { new: true, runValidators: true }
+  );
+  return result;
 };
 
 export const UserServices = {
@@ -76,4 +109,5 @@ export const UserServices = {
   getSingleUserInToDb,
   updateUserInToDb,
   deleteUserInToDb,
+  varifyUser
 };

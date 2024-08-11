@@ -29,5 +29,8 @@ router.post(
   validateRequest(AuthValidation.refreshTokenValidationSchema),
   AuthControllers.refreshToken,
 );
+router.post("/:id/reset-code", AuthControllers.resetVarifyCode)
+router.post("/:id/varify-email", AuthControllers.varifyEmail)
+
 
 export const AuthRoutes = router;

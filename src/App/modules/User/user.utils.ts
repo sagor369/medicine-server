@@ -33,7 +33,7 @@ export const findLastUserId = async () => {
     return incrementId;
   };
 
-  export const generateRandomNumberCode = ()=> {
+  export const generateRandomNumberCode = async()=> {
     const digits = '0123456789';
     let result = '';
     for (let i = 0; i < 6; i++) {

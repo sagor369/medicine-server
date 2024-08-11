@@ -6,6 +6,8 @@ import AppError from '../../errors/AppError';
 import { User } from '../User/user.model';
 import { TLoginUser } from './auth.interface';
 import { createToken, verifyToken } from './auth.utils';
+import { sendEmail } from '../../utils/sendEmail';
+import { generateRandomNumberCode } from '../User/user.utils';
 
 const loginUser = async (payload: TLoginUser) => {
   // checking if the user is exist
@@ -58,6 +60,45 @@ const loginUser = async (payload: TLoginUser) => {
     refreshToken,
   };
 };
+const resetVarifyCode = async (id: string) => {
+  const findUser = await User.findById(id);
+  if (!findUser) {
+    throw new AppError(httpStatus.NOT_FOUND, "this user is not found");
+  }
+  if (findUser?.isDeleted) {
+    throw new AppError(httpStatus.UNAUTHORIZED, "this user is deleted");
+  }
+  if (findUser?.status === "blocked") {
+    throw new AppError(httpStatus.NOT_FOUND, "this user is block");
+  }
+  const varifyCode = await generateRandomNumberCode();
+
+  const result = await User.findByIdAndUpdate(
+    id,
+    { varifyCode },
+    { new: true, runValidators: true }
+  );
+
+  await sendEmail(findUser?.email, `${varifyCode}`);
+  return result;
+};
+const varifyEmail = async (id: string, code : number) => {
+  const findUser = await User.findById(id);
+  if (!findUser) {
+    throw new AppError(httpStatus.NOT_FOUND, "this user is not found");
+  }
+  if(findUser.varifyCode !== code){
+    throw new AppError(httpStatus.NOT_ACCEPTABLE, "this code is not match");
+  }
+
+  const result = await User.findByIdAndUpdate(
+    id,
+    { status: 'in-progress' },
+    { new: true, runValidators: true }
+  );
+  return result;
+};
+
 
 const changePassword = async (
   userData: JwtPayload,
@@ -165,4 +206,6 @@ export const AuthServices = {
   loginUser,
   changePassword,
   refreshToken,
+  resetVarifyCode,
+  varifyEmail
 };

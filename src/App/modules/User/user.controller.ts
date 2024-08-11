@@ -14,6 +14,7 @@ const postUser = catchAsync(async (req, res) => {
     data: result,
   });
 });
+
 const getAlluser = catchAsync(async (req, res) => {
   const result = await UserServices.getAllUserInToDb(req.query);
 
@@ -65,4 +66,5 @@ export const UserController = {
   getSingleUser,
   updateUser,
   deleteUser,
+  
 };

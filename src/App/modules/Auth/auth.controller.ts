@@ -50,10 +50,36 @@ const refreshToken = catchAsync(async (req, res) => {
   });
 });
 
+const resetVarifyCode = catchAsync(async (req, res) => {
+  const {id} = req.params;
+  const result = await AuthServices.resetVarifyCode(id);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "reset varify code successfully",
+    data: result,
+  });
+});
+const varifyEmail = catchAsync(async (req, res) => {
+  const {id} = req.params;
+  const code = Number(req?.body?.code)
+  const result = await AuthServices.varifyEmail(id,code );
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "your email varify  successfully",
+    data: result,
+  });
+});
+
  
 
 export const AuthControllers = {
   loginUser,
   changePassword,
   refreshToken,
+  resetVarifyCode,
+  varifyEmail
 };
