@@ -13,4 +13,4 @@ router.get("/:id", AddressController.getSingleAddress)
 router.patch("/:id",auth(USER_ROLE.user), AddressController.updateAddress)
 router.delete("/:id",auth(USER_ROLE.superAdmin, USER_ROLE.admin, USER_ROLE.user), AddressController.deleteAddress)
 
-export const UserRouter= router
+export const AddressRouter= router

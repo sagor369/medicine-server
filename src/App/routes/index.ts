@@ -3,6 +3,8 @@ import { UserRouter } from "../modules/User/user.router";
 import { AuthRoutes } from "../modules/Auth/auth.route";
 import { CategoryRouter } from "../modules/Categories/category.router";
 import { OrdersRouter } from "../modules/Orders/order.router";
+import { ProductRouter } from "../modules/Products/product.router";
+import { AddressRouter } from "../modules/Address/address.router";
 
 const router = Router()
 const moduleRoutes = [
@@ -13,6 +15,14 @@ const moduleRoutes = [
     {
       path: '/categorys',
       route: CategoryRouter,
+    },
+    {
+      path: '/address',
+      route: AddressRouter,
+    },
+    {
+      path: '/products',
+      route: ProductRouter,
     },
     {
       path: '/auth',

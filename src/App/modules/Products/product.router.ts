@@ -13,4 +13,4 @@ router.get("/:id", productsController.getSingleProduct)
 router.patch("/:id",auth(USER_ROLE.superAdmin, USER_ROLE.admin), productsController.updateProduct)
 router.delete("/:id",auth(USER_ROLE.superAdmin, USER_ROLE.admin), productsController.deleteProduct)
 
-export const UserRouter= router
+export const ProductRouter= router

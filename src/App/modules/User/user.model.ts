@@ -11,6 +11,10 @@ const userSchema = new Schema<IUser, UserModel>(
       required: true,
       unique: true,
     },
+    name: {
+      type: String,
+      required: true,
+    },
     email: {
       type: String,
       required: true,
@@ -30,12 +34,12 @@ const userSchema = new Schema<IUser, UserModel>(
     },
     varifyCode: {
       type: Number,
-      required: true
+      required: true,
     },
     status: {
       type: String,
       enum: UserStatus,
-      default: 'panding' ,
+      default: "panding",
     },
     isDeleted: {
       type: Boolean,

@@ -14,6 +14,12 @@ const categorySchema = new Schema<TCategory>({
     type: String,
     required: true,
   },
+  
+    categoryType:{
+      type: String,
+      enum: ['primary', 'secondary', 'tertiary'],
+      required: true
+    },
   isDeleted:{
     type: Boolean,
     default: false

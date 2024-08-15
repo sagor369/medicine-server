@@ -11,6 +11,10 @@ const productSchema = new Schema<TProduct>({
     required: true,
     unique: true,
   },
+  brand:{
+    type: String,
+    required: true
+  },
   photos: {
     type: [String],
     required: true,
@@ -36,28 +40,28 @@ const productSchema = new Schema<TProduct>({
   },
   stockStatus: {
     type: Boolean,
-    required: true,
+    
   },
   status: {
     type: String,
     enum: ["active", "inactive"],
-    required: true,
+    default: "active"
   },
   categories: {
     primaryCategoryId: {
       type: Schema.Types.ObjectId,
       ref: "Category",
-      required: true,
+      
     },
     secondaryCategoryId: {
       type: Schema.Types.ObjectId,
       ref: "Category",
-      required: true,
+      
     },
     tertiaryCategoryId: {
       type: Schema.Types.ObjectId,
       ref: "Category",
-      required: true,
+      
     },
   },
 },

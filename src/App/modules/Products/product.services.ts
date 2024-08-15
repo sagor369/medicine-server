@@ -1,20 +1,16 @@
 import httpStatus from "http-status";
 import QueryBuilder from "../../builder/QueryBuilder";
 import AppError from "../../errors/AppError";
-import catchAsync from "../../utils/catchAsync";
 import { TProduct } from "./product.interface";
 import { Product } from "./product.model";
 
 const createProductInToDb = async (payload: TProduct) => {
-    payload.status = 'active'
   const result = await Product.create(payload);
   return result;
 };
 const getAllProductInToDb = async (query: Record<string, unknown>) => {
   const productQuery = new QueryBuilder(
-    Product.find({isDeleted: false}).populate(
-      "categories.primaryCategoryId categories.secondaryCategoryId categories.tertiaryCategoryId"
-    ),
+    Product.find(),
     query
   ).search(['name', 'description','price', 'slug'])
   .filter()
@@ -23,6 +19,7 @@ const getAllProductInToDb = async (query: Record<string, unknown>) => {
   .fields();
   const meta = await productQuery.countTotal();
   const result = await productQuery.modelQuery;
+  console.log({result , meta})
 
   return {
     meta,

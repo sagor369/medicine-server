@@ -3,6 +3,7 @@ import { USER_ROLE, UserStatus } from "./user.const";
 
 export interface IUser {
   id: string;
+  name: string;
   email: string;
   password: string;
   varifyCode: number;
