@@ -19,7 +19,6 @@ const getAllProductInToDb = async (query: Record<string, unknown>) => {
   .fields();
   const meta = await productQuery.countTotal();
   const result = await productQuery.modelQuery;
-  console.log({result , meta})
 
   return {
     meta,
@@ -27,9 +26,7 @@ const getAllProductInToDb = async (query: Record<string, unknown>) => {
   };
 };
 const getSingleProductInToDb = async (id: string) => {
-  const result = await Product.findById(id).populate(
-    "categories.primaryCategoryId categories.secondaryCategoryId categories.tertiaryCategoryId"
-  )
+  const result = await Product.findById(id)
 
   return result;
 };

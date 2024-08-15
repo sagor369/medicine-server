@@ -13,4 +13,4 @@ router.get("/:id", VariantsController.getSingleVariants)
 router.patch("/:id",auth(USER_ROLE.superAdmin, USER_ROLE.admin), VariantsController.updateVariants)
 router.delete("/:id",auth(USER_ROLE.superAdmin, USER_ROLE.admin), VariantsController.deleteVariants)
 
-export const UserRouter= router
+export const VariantRouter= router
